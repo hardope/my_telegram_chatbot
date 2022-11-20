@@ -37,7 +37,7 @@ def handle_message(update, context):
      text = update.message.text
      if 'hi' in text or 'hello' in text or 'hey' in text or 'Hello' in text or 'Hello' in text or 'Hey' in text:
           a+=1
-          update.message.reply_text(greet.choice(greet))
+          update.message.reply_text(random.choice(greet))
      if 'my name' in text or "MY Name" in text or "My name" in text or "myname" in text:
           a+=1
           user = update.message.from_user
