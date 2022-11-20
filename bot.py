@@ -30,13 +30,16 @@ def contact(update, context):
      update.message.reply_text("Reach Opeoluwa Adeyeri at adeyeriopeoluwa05@gmail.com")
 
 def handle_message(update, context):
+     a = 0
      text = update.message.text
-     if 'hi' in text or 'hello' in text or 'hey' in text:
-          update.message.reply_text(f"Hello :wave:")
+     if 'hi' in text or 'hello' in text or 'hey' in text or 'Hello' in text or 'Hello' in text or 'Hey' in text:
+          a+=1
+          update.message.reply_text(f"Hello U+1F44B")
      if 'my name' in text or "MY Name" in text or "My name" in text or "myname" in text:
+          a+=1
           user = update.message.from_user
           update.message.reply_text(f"Your Name is {user.first_name}")
-     else:
+     if a < 1:
           update.message.reply_text(f"You Said: {text}. I cant Reply You at the moment.")
 
 
