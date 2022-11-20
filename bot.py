@@ -5,7 +5,11 @@ with open('token.txt', 'r') as file:
 
 def start(update, context):
      user = update.message.from_user
-     update.message.reply_text(f"Hello {user.first_name}, welcome to hardope chatBot created by Opeoluwa Adeyeri")
+     update.message.reply_text(f"""
+Hello {user.first_name}, I'm a chat Bot Created By Opeoluwa Adeyeri
+You can ask me for Your Name
+You can ask me For Your Username
+""")
 
 def help(update, context):
      update.message.reply_text("""
@@ -27,7 +31,13 @@ def contact(update, context):
 
 def handle_message(update, context):
      text = update.message.text
-     update.message.reply_text(f"You Said: {text}. I cant Reply You at the moment.")
+     if 'hi' in text or 'hello' in text 'hey' in text:
+          update.message.reply_text(f"Hello :wave:")
+     if 'my name' in text or "MY Name" in text or "My name" in text or "myname" in text:
+          user = update.message.from_user
+          update.message.reply_text(f"Your Name is {user.first_name}")
+     else:
+          update.message.reply_text(f"You Said: {text}. I cant Reply You at the moment.")
 
 
 updater = telegram.ext.Updater(TOKEN, use_context=True)
