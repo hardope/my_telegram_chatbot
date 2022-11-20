@@ -31,7 +31,7 @@ def contact(update, context):
 
 def handle_message(update, context):
      text = update.message.text
-     if 'hi' in text or 'hello' in text 'hey' in text:
+     if 'hi' in text or 'hello' in text or 'hey' in text:
           update.message.reply_text(f"Hello :wave:")
      if 'my name' in text or "MY Name" in text or "My name" in text or "myname" in text:
           user = update.message.from_user
