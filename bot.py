@@ -42,6 +42,10 @@ def handle_message(update, context):
           a+=1
           user = update.message.from_user
           update.message.reply_text(f"Your Name is {user.first_name}")
+     if 'my username name' in text or "MY Username Name" in text or "My username name" in text or "myusernamename" in text:
+          a+=1
+          user = update.message.from_user
+          update.message.reply_text(f"Your Username is {user.username}")
      if a < 1:
           update.message.reply_text(f"You Said: {text}. I cant Reply You at the moment.")
 
