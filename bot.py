@@ -1,6 +1,10 @@
 import telegram.ext
 import random
 import requests
+<<<<<<< HEAD
+=======
+import json
+>>>>>>> 77daadb4b1e8785a1a65cce5d885cf06890934bb
 def meaning(word):
     url = "https://api.dictionaryapi.dev/api/v2/entries/en/" + word.lower()
 
@@ -134,9 +138,6 @@ def handle_message(update, context):
         rem_todo(update, context, text)
     if a < 1:
         update.message.reply_text(f"You Said: {update.message.text}. I cant Reply You at the moment.")
-
-
-
 
 updater = telegram.ext.Updater(TOKEN, use_context=True)
 disp = updater.dispatcher
