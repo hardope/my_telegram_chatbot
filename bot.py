@@ -1,5 +1,19 @@
 import telegram.ext
 import random
+import requests
+def meaning(word):
+    url = "https://api.dictionaryapi.dev/api/v2/entries/en/" + word.lower()
+
+    r = requests.get(url)
+    r = r.json()
+
+    data = r[0]["meanings"][0]["definitions"]
+    answer = data[0]["definition"]
+    try:
+        answer = f"{answer} Also can be described as {data[1]['definition']}"
+    except:
+        pass
+    return(answer)
 
 greet = ["👋", "Hi 👋", "Hello 👋", "Hey 👋"]
 
@@ -21,7 +35,52 @@ def help(update, context):
 /help -> Display Help Message
 /about -> About Chatbot
 /contact -> Contact Bot administrator
+/todo -> Open Todo
+help -> Display Help Message
+Add Todo :<insert Task name here> -> Add Element To Todo List
+Remove Todo :<insert task name here> -> Remove Element From Todo List
+Empty Todo -> Empty Todo List
      """)
+
+def add_todo(update, context, text):
+    user = update.message.from_user
+    with open(f"{user.username}.txt", "a") as file:
+        file.write(f"* {text.strip()}\n")
+        update.message.reply_text(f"Added {text} to your Todo List")
+    todo(update, context)
+
+def rem_todo(update, context, text):
+    user = update.message.from_user
+    data = ""
+    with open(f"{user.username}.txt", "r") as file:
+        data = file.read()
+        if text not in data:
+            update.message.reply_text("Item Not in Todo List")
+            return
+        else:
+            pass
+    with open(f"{user.username}.txt", "w") as file:
+        data = data.split("\n")
+        for i in data:
+            print(f"{i} : * {text}")
+            if i == f"* {text}":
+                pass
+            else:
+                file.write(f"{i}\n")
+    update.message.reply_text(f"Removed {text} From Todo List")
+    todo(update, context)
+
+
+def todo(update, context):
+    user = update.message.from_user
+    try:
+        with open(f"{user.username}.txt", "r") as file:
+            todo = file.read()
+            update.message.reply_text("Here is your Todo List")
+            update.message.reply_text(f"{todo}")
+    except:
+        with open(f"{user.username}.txt", "w"):
+            update.message.reply_text(f"You have an empty Todo List.\n* Send 'Add Todo' to add a new task\n Send 'Remove' Todo to remove a task")
 
 def about(update, context):
      update.message.reply_text("""
@@ -33,21 +92,50 @@ def contact(update, context):
      update.message.reply_text("Reach Opeoluwa Adeyeri at adeyeriopeoluwa05@gmail.com")
 
 def handle_message(update, context):
-     a = 0
-     text = update.message.text
-     if 'hi' in text or 'hello' in text or 'hey' in text or 'Hello' in text or 'Hello' in text or 'Hey' in text:
-          a+=1
-          update.message.reply_text(random.choice(greet))
-     if 'my name' in text or "MY Name" in text or "My name" in text or "myname" in text:
-          a+=1
-          user = update.message.from_user
-          update.message.reply_text(f"Your Name is {user.first_name}")
-     if 'my username' in text or "MY Username" in text or "My username" in text or "myusername" in text:
-          a+=1
-          user = update.message.from_user
-          update.message.reply_text(f"Your Username is {user.username}")
-     if a < 1:
-          update.message.reply_text(f"You Said: {text}. I cant Reply You at the moment.")
+    a = 0
+    user = update.message.from_user
+    text = update.message.text
+    text = text.lower()
+    print(text)
+    if text == "help":
+        a+=1
+        help(update, context)
+    if 'hi' in text or 'hello' in text or 'hey' in text:
+        a+=1
+        update.message.reply_text(random.choice(greet))
+    if 'my name' in text or "myname" in text:
+        a+=1
+        update.message.reply_text(f"Your Name is {user.first_name}")
+    if 'my username' in text or "myusername" in text:
+        a+=1
+        user = update.message.from_user
+        update.message.reply_text(f"Your Username is {user.username}")
+    if "what is" in text and ("meaning" in text or "definition" in text) or "what's" in text and ("meaning" in text or "definition" in text) or "define" in text or "meaning" in text or "definition" in text:
+        a+=1
+        text = text.split(" ")
+        text = text[-1]
+        result = meaning(text)
+        with open("dict.txt", "a") as file:
+            file.write(f"{text}: {result}\n")
+        update.message.reply_text(result)
+        update.message.reply_text(f"For More Information on this word visit wikipedia https://en.wikipedia.org/wiki/{text}")
+    if "todo" in text or "open todo" in text or ("open" in text and "todo" in text):
+        a+=1
+        todo(update, context)
+    if "add todo" in text:
+        a+=1
+        text = update.message.text.split(":")
+        text = text[-1]
+        add_todo(update, context, text)
+    if "remove todo" in text:
+        a+=1
+        text = update.message.text.split(":")
+        text = text[-1]
+        rem_todo(update, context, text)
+    if a < 1:
+        update.message.reply_text(f"You Said: {update.message.text}. I cant Reply You at the moment.")
+
+
 
 
 updater = telegram.ext.Updater(TOKEN, use_context=True)
