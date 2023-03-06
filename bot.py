@@ -1,10 +1,7 @@
 import telegram.ext
 import random
 import requests
-<<<<<<< HEAD
-=======
-import json
->>>>>>> 77daadb4b1e8785a1a65cce5d885cf06890934bb
+from pyjokes import *
 def meaning(word):
     url = "https://api.dictionaryapi.dev/api/v2/entries/en/" + word.lower()
 
@@ -136,8 +133,14 @@ def handle_message(update, context):
         text = update.message.text.split(":")
         text = text[-1]
         rem_todo(update, context, text)
+    if "tell" in text and "joke" in text:
+        a+=1
+        update.message.reply_text(get_joke())
     if a < 1:
         update.message.reply_text(f"You Said: {update.message.text}. I cant Reply You at the moment.")
+
+
+
 
 updater = telegram.ext.Updater(TOKEN, use_context=True)
 disp = updater.dispatcher
