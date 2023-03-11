@@ -101,19 +101,24 @@ def handle_message(update, context):
     text = update.message.text
     text = text.lower()
     print(text)
+
     if text == "help":
         a+=1
         help(update, context)
+
     if 'hi' in text or 'hello' in text or 'hey' in text:
         a+=1
         update.message.reply_text(random.choice(greet))
+
     if 'my name' in text or "myname" in text:
         a+=1
         update.message.reply_text(f"Your Name is {user.first_name}")
+
     if 'my username' in text or "myusername" in text:
         a+=1
         user = update.message.from_user
         update.message.reply_text(f"Your Username is {user.username}")
+
     if "what is" in text and ("meaning" in text or "definition" in text) or "what's" in text and ("meaning" in text or "definition" in text) or "define" in text or "meaning" in text or "definition" in text:
         a+=1
         text = text.split(" ")
@@ -123,27 +128,29 @@ def handle_message(update, context):
             file.write(f"{text}: {result}\n")
         update.message.reply_text(result)
         update.message.reply_text(f"For More Information on this word visit wikipedia https://en.wikipedia.org/wiki/{text}")
+
     if "todo" in text or "open todo" in text or ("open" in text and "todo" in text):
         a+=1
         todo(update, context)
+
     if "add todo" in text:
         a+=1
         text = update.message.text.split(":")
         text = text[-1]
         add_todo(update, context, text)
+
     if "remove todo" in text:
         a+=1
         text = update.message.text.split(":")
         text = text[-1]
         rem_todo(update, context, text)
+
     if "tell" in text and "joke" in text:
         a+=1
         update.message.reply_text(get_joke())
+
     if a < 1:
         update.message.reply_text(f"You Said: {update.message.text}. I cant Reply You at the moment.")
-
-
-
 
 updater = telegram.ext.Updater(TOKEN, use_context=True)
 disp = updater.dispatcher
