@@ -2,6 +2,22 @@ import telegram.ext
 import random
 import requests
 from pyjokes import *
+
+
+greet = ["👋", "Hi 👋", "Hello 👋", "Hey 👋"]
+
+with open('token.txt', 'r') as file:
+     TOKEN = file.read()
+
+
+def start(update, context):
+     user = update.message.from_user
+     update.message.reply_text(f"""
+                            Hello {user.first_name}, I'm a chat Bot Created By Opeoluwa Adeyeri
+                            You can ask me for Your Name
+                            You can ask me For Your Username
+                            """)
+
 def meaning(word):
     url = "https://api.dictionaryapi.dev/api/v2/entries/en/" + word.lower()
 
@@ -16,32 +32,19 @@ def meaning(word):
         pass
     return(answer)
 
-greet = ["👋", "Hi 👋", "Hello 👋", "Hey 👋"]
-
-with open('token.txt', 'r') as file:
-     TOKEN = file.read()
-
-def start(update, context):
-     user = update.message.from_user
-     update.message.reply_text(f"""
-Hello {user.first_name}, I'm a chat Bot Created By Opeoluwa Adeyeri
-You can ask me for Your Name
-You can ask me For Your Username
-""")
-
 def help(update, context):
      update.message.reply_text("""
      Here are The List of commands:
-/Start -> Welcome Message
-/help -> Display Help Message
-/about -> About Chatbot
-/contact -> Contact Bot administrator
-/todo -> Open Todo
-help -> Display Help Message
-Add Todo :<insert Task name here> -> Add Element To Todo List
-Remove Todo :<insert task name here> -> Remove Element From Todo List
-Empty Todo -> Empty Todo List
-     """)
+    /Start -> Welcome Message
+    /help -> Display Help Message
+    /about -> About Chatbot
+    /contact -> Contact Bot administrator
+    /todo -> Open Todo
+    help -> Display Help Message
+    Add Todo :<insert Task name here> -> Add Element To Todo List
+    Remove Todo :<insert task name here> -> Remove Element From Todo List
+    Empty Todo -> Empty Todo List
+        """)
 
 def add_todo(update, context, text):
     user = update.message.from_user
@@ -85,9 +88,9 @@ def todo(update, context):
 
 def about(update, context):
      update.message.reply_text("""
-This chatbot was created By opeoluwa Adeyeri.
-Opeoluwa Adeyeri is a Full stack web Developer with nearly a Year of experience and fluent in over 10 Languages
-     """)
+                            This chatbot was created By opeoluwa Adeyeri.
+                            Opeoluwa Adeyeri is a Full stack web Developer with nearly a Year of experience and fluent in over 10 Languages
+                                """)
 
 def contact(update, context):
      update.message.reply_text("Reach Opeoluwa Adeyeri at adeyeriopeoluwa05@gmail.com")
