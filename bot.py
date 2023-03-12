@@ -49,9 +49,9 @@ def help(update, context):
 def add_todo(update, context, text):
     user = update.message.from_user
     with open(f"{user.username}.txt", "a") as file:
+        text = text.split(":")[1]
         file.write(f"* {text.strip()}\n")
-        update.message.reply_text(f"Added {text} to your Todo List")
-    todo(update, context)
+    update.message.reply_text("Added Item")
 
 def rem_todo(update, context, text):
     user = update.message.from_user
