@@ -3,7 +3,6 @@ import random
 import requests
 from pyjokes import *
 
-
 greet = ["👋", "Hi 👋", "Hello 👋", "Hey 👋"]
 
 with open('token.txt', 'r') as file:
@@ -73,7 +72,6 @@ def rem_todo(update, context, text):
                 file.write(f"{i}\n")
     update.message.reply_text(f"Removed {text} From Todo List")
     todo(update, context)
-
 
 def todo(update, context):
     user = update.message.from_user
